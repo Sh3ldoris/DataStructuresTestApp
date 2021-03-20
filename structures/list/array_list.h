@@ -141,7 +141,7 @@ namespace structures
 
 	template<typename T>
 	inline ArrayList<T>::ArrayList():
-		List(),
+		List<T>::List(),
 		array_(new Array<T>(4)),
 		size_(0)
 	{
@@ -149,7 +149,7 @@ namespace structures
 
 	template<typename T>
 	inline ArrayList<T>::ArrayList(const ArrayList<T>& other):
-		List(),
+		List<T>::List(),
 		array_(new Array<T>(*other.array_)),
 		size_(other.size_)
 	{

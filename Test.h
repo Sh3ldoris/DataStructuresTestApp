@@ -4,7 +4,11 @@
 class Test
 {
 public:
-	virtual TestInfo runTest(char scenario, TestInfo &info) = 0;
-	virtual void getScenarios(char* scenarios) = 0;
+	virtual void runTest(char scenario, TestInfo& info) = 0;
+	virtual const char* getScenarios() const = 0;
+	virtual ~Test();
 };
 
+inline Test::~Test()
+{
+}
