@@ -204,7 +204,7 @@ namespace structures
 
 	template<typename T>
 	inline LinkedList<T>::LinkedList():
-		List(),
+		List<T>::List(),
 		size_(0),
 		first_(nullptr),
 		last_(nullptr)

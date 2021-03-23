@@ -9,14 +9,14 @@ void FileOutputHander::openFile(std::string filename)
 	}
 }
 
-bool FileOutputHander::writeRecord(std::string structName, int itemsCount, float time)
+bool FileOutputHander::writeRecord(std::string structName, std::string operation, int itemsCount, float time)
 {
 	if (!file.is_open())
 	{
 		return false;
 	}
 
-	file << structName << ";" << itemsCount << ";" << time << std::endl;
+	file << structName << ";" << operation << ";" << itemsCount << ";" << time << std::endl;
 	return true;
 }
 

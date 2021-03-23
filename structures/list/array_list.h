@@ -3,6 +3,7 @@
 #include "list.h"
 #include "../structure_iterator.h"
 #include "../array/array.h"
+#include <iostream>
 
 namespace structures
 {
@@ -158,6 +159,7 @@ namespace structures
 	template<typename T>
 	inline ArrayList<T>::~ArrayList()
 	{
+		std::cout << "Destructior ArrayList\n";
 		delete array_;
 		array_ = nullptr;
 	}
@@ -257,7 +259,7 @@ namespace structures
 	template<typename T>
 	inline T ArrayList<T>::removeAt(const int index)
 	{
-		DSRoutines::rangeCheckExcept(index, 0, size_ - 1, "Invalid index!");
+		DSRoutines::rangeCheckExcept(index, 0, size_, "Invalid index!");
 
 		T data = (*array_)[index];
 
@@ -267,7 +269,8 @@ namespace structures
 			return data;
 		}
 
-		Array<T>::copy(*array_, index + 1, *array_, index - 1, size_ - 1 - index);
+		Array<T>::copy(*array_, index + 1, *array_, index, size_ - 1 - index);
+		size_--;
 		return data;
 	}
 
