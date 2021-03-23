@@ -246,7 +246,7 @@ void ADTListTest::runTest(char scenario, TestInfo& info)
 	info.setOperationsTime(34.12);
 	
 	ArrayList<int> al;
-	
+	LinkedList<int> ll;
 
 	string fileName = baseDir;
 	fileName.append("/ADTList-");
@@ -254,8 +254,9 @@ void ADTListTest::runTest(char scenario, TestInfo& info)
 	fileName.append(".csv");
 
 	fileWriter->openFile(fileName);
+
 	runTestForImplementation(al, "AL");
-	//TODO: run test for linked lists
+	runTestForImplementation(ll, "LL");
 
 	fileWriter->closeFile();
 	
