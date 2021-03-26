@@ -279,7 +279,7 @@ void ADTListTest::runTest(char scenario, TestInfo& info)
 	fileName.push_back(scenario);
 	fileName.append(".csv");
 
-	fileWriter->openFile(fileName);
+	fileWriter->openFile(fileName, "trunc");
 
 	runTestForImplementation(al, "AL");
 	runTestForImplementation(ll, "LL");
@@ -289,6 +289,7 @@ void ADTListTest::runTest(char scenario, TestInfo& info)
 
 string ADTListTest::getScenarios()
 {
+	sscenarios.clear();
 	ifstream fin;
 	fin.open("test.csv");
 	string line, word;
