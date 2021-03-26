@@ -50,7 +50,7 @@ void TestApp::run()
 	/********** Test scenario selection **********/
 	cout << "\nVyberte testovaci scenar: \n";
 
-	const char* scenarios = test->getScenarios();
+	string scenarios = test->getScenarios();
 	int i = 0;
 	while (scenarios[i] != '\0')
 	{

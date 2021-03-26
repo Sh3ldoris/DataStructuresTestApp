@@ -2,6 +2,8 @@
 #include <string>
 #include <chrono> 
 #include <time.h>
+#include <utility>  
+#include <vector>
 
 #include "Test.h"
 #include "FileOutputHander.h"
@@ -16,7 +18,7 @@ class ADTListTest : public Test
 {
 public:
     void runTest(char scenario, TestInfo& info);
-    const char* getScenarios() const;
+    std::string getScenarios();
     ADTListTest();
     ~ADTListTest();
 
@@ -29,7 +31,9 @@ private:
     float indexOperation(structures::List<int>& list);
 
 private:
-    const char* scenarios;
+    char* scenarios;
+    std::string sscenarios = "";
+    std::vector<std::pair<std::string, std::vector<int>>> data{};
     FileOutputHander* fileWriter;
     int insertRange, removeRange, getRange, indexRange = 0;
     int operationsCount = 100;

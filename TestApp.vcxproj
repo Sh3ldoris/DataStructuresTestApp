@@ -140,16 +140,21 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ADTListTest.cpp" />
+    <ClCompile Include="FileOutputHander.cpp" />
+    <ClCompile Include="Main.cpp" />
     <ClCompile Include="structures\ds_routines.cpp" />
     <ClCompile Include="structures\memory_routines.cpp" />
     <ClCompile Include="structures\structure.cpp" />
     <ClCompile Include="structures\vector\vector.cpp" />
-    <ClCompile Include="Test.cpp" />
     <ClCompile Include="TestApp.cpp" />
     <ClCompile Include="TestInfo.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ADTListTest.h" />
+    <ClInclude Include="CoherentMatrix.h" />
+    <ClInclude Include="FileOutputHander.h" />
+    <ClInclude Include="IncoherentMatrix.h" />
+    <ClInclude Include="Matrix.h" />
     <ClInclude Include="structures\array\array.h" />
     <ClInclude Include="structures\ds_routines.h" />
     <ClInclude Include="structures\ds_structure_types.h" />
@@ -162,11 +167,8 @@
     <ClInclude Include="structures\structure_iterator.h" />
     <ClInclude Include="structures\vector\vector.h" />
     <ClInclude Include="Test.h" />
+    <ClInclude Include="TestApp.h" />
     <ClInclude Include="TestInfo.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram.cd" />
-    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

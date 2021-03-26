@@ -6,6 +6,8 @@
 #include <stdio.h>
 #include <chrono> 
 #include <thread>
+#include <sstream>
+#include <fstream>
 
 #include "structures/list/array_list.h"
 #include "structures/list/linked_list.h"
@@ -13,9 +15,9 @@
 using namespace std;
 using namespace structures;
 
-ADTListTest::ADTListTest():
+ADTListTest::ADTListTest() :
 	fileWriter(new FileOutputHander()),
-	scenarios("ABC")
+	scenarios(nullptr)
 {
 	srand(time(NULL));
 }
@@ -225,7 +227,7 @@ float ADTListTest::indexOperation(structures::List<int>& list)
 
 void ADTListTest::runTest(char scenario, TestInfo& info)
 {
-	switch (scenario)
+	/*switch (scenario)
 	{
 	case 'A':
 		setTestScenarioOperationRanges(20, 20, 50, 10);
@@ -237,6 +239,30 @@ void ADTListTest::runTest(char scenario, TestInfo& info)
 		setTestScenarioOperationRanges(45, 45, 5, 5);
 		break;
 	default:
+		info.setOperationsCount(0);
+		info.setOperationsTime(0);
+		return;
+	}*/
+	
+	int founded = -1;
+
+	for (int i = 0; i < data.size(); i++)
+	{
+		if (data.at(i).first[0] == scenario)
+		{
+			int frstRange = data.at(i).second[0];
+			int scndRange = data.at(i).second[1];
+			int thrdRange = data.at(i).second[2];
+			int frthRange = data.at(i).second[3];
+
+			setTestScenarioOperationRanges(frstRange, scndRange, thrdRange, frthRange);
+			founded = 1;
+			break;
+		}
+	}
+
+	if (founded == -1)
+	{
 		info.setOperationsCount(0);
 		info.setOperationsTime(0);
 		return;
@@ -259,10 +285,36 @@ void ADTListTest::runTest(char scenario, TestInfo& info)
 	runTestForImplementation(ll, "LL");
 
 	fileWriter->closeFile();
-	
 }
 
-const char* ADTListTest::getScenarios() const
+string ADTListTest::getScenarios()
 {
-	return scenarios;
+	ifstream fin;
+	fin.open("test.csv");
+	string line, word;
+	int isName = 0, index = 0, rangeValue = 0;
+	while (fin.good()) {
+		isName = 1;
+		getline(fin, line);
+		stringstream s(line);
+
+		vector<int> ranges{};
+		string sceanrioName = "";
+		while (getline(s, word, ';')) {
+			if (isName == 1)
+			{
+				sceanrioName.append(word);
+				sscenarios.append(word);
+				isName = -1;
+			}
+			else
+			{
+				rangeValue = stoi(word);
+				ranges.push_back(rangeValue);
+			}
+		}
+		data.push_back({ sceanrioName, ranges });
+		index++;
+	}
+	return sscenarios;
 }
