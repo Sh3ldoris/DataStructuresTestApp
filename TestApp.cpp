@@ -1,5 +1,6 @@
 #include "TestApp.h"
 #include "ADTListTest.h"
+#include "tests/matrix/MatrixTest.h"
 #include "structures/list/list.h"
 #include "structures/list/array_list.h"
 #include "FileOutputHander.h"
@@ -19,7 +20,6 @@ TestApp::TestApp():
 
 TestApp::~TestApp()
 {
-	system("cls");
 	cout << "Aplikacia bola ukocena!\n";
 	delete test;
 	test = nullptr;
@@ -82,6 +82,10 @@ bool TestApp::initializeTest(int testSelection)
 	case 1:
 		test = new ADTListTest();
 		selectedTest = "ADT List";
+		break;
+	case 3:
+		test = new MatrixTest();
+		selectedTest = "Matrix";
 		break;
 	default:
 		return false;
@@ -170,7 +174,7 @@ bool TestApp::addNewADTScenatio()
 	ostringstream s;
 
 	foh.openFile("test.csv", "app");
-	s << sName << ';' << insert << ';' << remove << ';' << get << ';' << index << '\n';
+	s << sName << ';' << insert << ';' << remove << ';' << get << ';' << index;
 	nLine = s.str();
 
 	if (insert + remove + get + index != 100 || sName == ' ' || !foh.writeLine(nLine))
@@ -187,7 +191,7 @@ bool TestApp::addNewADTScenatio()
 
 void TestApp::onceAgainSelection(int& varToSelect)
 {
-	cout << "Skuste to este raz: ";
+	cout << "\nSkuste to este raz: ";
 	cin >> varToSelect;
 	if (cin.fail()) {
 		cin.clear();
@@ -198,7 +202,7 @@ void TestApp::onceAgainSelection(int& varToSelect)
 
 void TestApp::onceAgainSelection(char& varToSelect, std::string& rawInput)
 {
-	cout << "Skuste to este raz: ";
+	cout << "\nSkuste to este raz: ";
 	cin >> rawInput;
 	if (cin.fail()) {
 		cin.clear();

@@ -1,8 +1,8 @@
 #pragma once
 #include <iostream>
 #include "Matrix.h"
-#include "structures/array/array.h"
-#include "structures/ds_routines.h"
+#include "../array/array.h"
+#include "../ds_routines.h"
 
 namespace mystruct
 {

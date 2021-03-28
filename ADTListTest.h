@@ -17,10 +17,10 @@ typedef std::chrono::high_resolution_clock::time_point tp;
 class ADTListTest : public Test
 {
 public:
-    void runTest(char scenario, TestInfo& info);
-    std::string getScenarios();
     ADTListTest();
     ~ADTListTest();
+    void runTest(char scenario, TestInfo& info) override;
+    std::string getScenarios() override;
 
 private:
     void setTestScenarioOperationRanges(int insertRange, int removeRange, int getRange, int indexRange);
@@ -31,7 +31,6 @@ private:
     float indexOperation(structures::List<int>& list);
 
 private:
-    char* scenarios;
     std::string sscenarios = "";
     std::vector<std::pair<std::string, std::vector<int>>> data{};
     FileOutputHander* fileWriter;

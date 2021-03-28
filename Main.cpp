@@ -21,25 +21,7 @@ int main()
 {
 	initHeapMonitor();
 	TestApp app;
-	app.run();
-
-	/*ADTListTest a;
-	string s = a.getScenarios();*/
-
-	/*Matrix<int>* m = new IncoherentMatrix<int>(5, 6);
-	m->setValues(0);
-	m->item(2, 3) = 8;
-	for (int i = 0; i < m->getColumnLength(); i++)
-	{
-		for (int j = 0; j < m->getRowLength(); j++)
-		{
-			cout << m->item(i, j);
-		}
-		cout << endl;
-	}
-	delete m;*/
-
-	
+	app.run();	
 	return 0;
 }
 

@@ -5,7 +5,6 @@
 #include <time.h>
 #include <stdio.h>
 #include <chrono> 
-#include <thread>
 #include <sstream>
 #include <fstream>
 
@@ -16,8 +15,7 @@ using namespace std;
 using namespace structures;
 
 ADTListTest::ADTListTest() :
-	fileWriter(new FileOutputHander()),
-	scenarios(nullptr)
+	fileWriter(new FileOutputHander())
 {
 	srand(time(NULL));
 }
@@ -268,6 +266,7 @@ void ADTListTest::runTest(char scenario, TestInfo& info)
 		return;
 	}
 
+	//TODO: UI result
 	info.setOperationsCount(11110);
 	info.setOperationsTime(34.12);
 	
