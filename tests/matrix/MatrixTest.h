@@ -26,10 +26,12 @@ private:
     void runScenarioB();
     void matrixAddition(mystruct::Matrix<int>& m1, mystruct::Matrix<int>& m2, mystruct::Matrix<int>& result);
     void matrixMultiplication(mystruct::Matrix<int>& m1, mystruct::Matrix<int>& m2, mystruct::Matrix<int>& result);
+    void onceAgainSelection(int& varToSelect, std::string& rawInput);
 
 private:
     int maxSize;
     int sizeAddition;
+    int fixedLength;
     int repetitions;
     std::string scenarios;
     std::string baseDir = "CSV-DATA";

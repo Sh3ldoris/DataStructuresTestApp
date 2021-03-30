@@ -83,7 +83,8 @@ namespace structures
 	template<typename T>
 	ImplicitStack<T>::~ImplicitStack()
 	{
-		//TODO 05: ImplicitStack
+		delete list_;
+		list_ = nullptr;
 	}
 
 	template<typename T>
@@ -99,8 +100,11 @@ namespace structures
 	template<typename T>
 	inline ImplicitStack<T>& ImplicitStack<T>::operator=(const ImplicitStack<T>& other)
 	{
-		//TODO 05: ImplicitStack
-		throw std::exception("ImplicitStack<T>::operator=: Not implemented yet.");
+		if (this != &other)
+		{
+			list_ = other.list_;
+		}
+		return *this;
 	}
 
 	template<typename T>
@@ -112,42 +116,36 @@ namespace structures
 	template<typename T>
 	size_t ImplicitStack<T>::size() const
 	{
-		//TODO 05: ImplicitStack
-		throw std::exception("ImplicitStack<T>::size: Not implemented yet.");
+		return list_->size();
 	}
 
 	template<typename T>
 	inline void ImplicitStack<T>::clear()
 	{
-		//TODO 05: ImplicitStack
-		throw std::exception("ImplicitStack<T>::clear: Not implemented yet.");
+		list_->clear();
 	}
 
 	template<typename T>
 	inline void ImplicitStack<T>::push(const T& data)
 	{
-		//TODO 05: ImplicitStack
-		throw std::exception("ImplicitStack<T>::push: Not implemented yet.");
+		list_->add(data);
 	}
 
 	template<typename T>
 	inline T ImplicitStack<T>::pop()
 	{
-		//TODO 05: ImplicitStack
-		throw std::exception("ImplicitStack<T>::pop: Not implemented yet.");
+		return list_->removeAt(list_->size() - 1);
 	}
 
 	template<typename T>
 	inline T& ImplicitStack<T>::peek()
 	{
-		//TODO 05: ImplicitStack
-		throw std::exception("ImplicitStack<T>::peek: Not implemented yet.");
+		return (*list_)[list_->size() - 1];
 	}
 
 	template<typename T>
 	inline const T ImplicitStack<T>::peek() const
 	{
-		//TODO 05: ImplicitStack
-		throw std::exception("ImplicitStack<T>::peek: Not implemented yet.");
+		return (*list_)[list_->size() - 1];
 	}
 }

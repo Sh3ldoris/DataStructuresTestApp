@@ -1,5 +1,15 @@
 #include "TestInfo.h"
 
+void TestInfo::setMessage(std::string message)
+{
+	this->message = message;
+}
+
+std::string TestInfo::getMessage()
+{
+	return message;
+}
+
 void TestInfo::setOperationsCount(int count)
 {
 	operationCount = count;

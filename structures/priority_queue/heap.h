@@ -101,35 +101,82 @@ namespace structures
 	template<typename T>
 	void Heap<T>::push(const int priority, const T& data)
 	{
-		//TODO 06: Heap
-		throw std::exception("Heap<T>::push: Not implemented yet.");
+		(this->list_)->add(new PriorityQueueItem<T>(priority, data));
+
+		int currentIndex = (this->list_)->size() - 1;
+		int parentIndex = getParentIndex(currentIndex);
+		while (parentIndex != -1 &&
+			(*this->list_)[currentIndex]->getPriority() < (*this->list_)[parentIndex]->getPriority())
+		{
+			DSRoutines::swap((*this->list_)[currentIndex], (*this->list_)[parentIndex]);
+			currentIndex = parentIndex;
+			parentIndex = getParentIndex(currentIndex);
+		}
 	}
 
 	template<typename T>
 	T Heap<T>::pop()
 	{
-		//TODO 06: Heap
-		throw std::exception("Heap<T>::pop: Not implemented yet.");
+		int peakIndex = indexOfPeek();
+		PriorityQueueItem<T>* bestItem = (*this->list_)[peakIndex];
+		(*this->list_)[peakIndex] = (*this->list_)[(this->list_)->size() - 1];
+		(*this->list_)[(this->list_)->size() - 1] = bestItem;
+
+		int currentIndex = (this->list_)->size() - 1;
+		int childIndex = getGreaterSonIndex(currentIndex);
+		while (childIndex != -1 &&
+			(*this->list_)[currentIndex]->getPriority() > (*this->list_)[childIndex]->getPriority())
+		{
+			DSRoutines::swap((*this->list_)[currentIndex], (*this->list_)[childIndex]);
+			currentIndex = childIndex;
+			childIndex = getParentIndex(currentIndex);
+		}
+
+		(this->list_)->removeAt((this->list_)->size() - 1);
+		T result = bestItem->accessData();
+		delete bestItem;
+		return result;
 	}
 
 	template<typename T>
 	inline int Heap<T>::getParentIndex(const int index)
 	{
-		//TODO 06: Heap
-		throw std::exception("Heap<T>::getParentIndex: Not implemented yet.");
+		return (index + 1) / 2 - 1;
+
 	}
 
 	template<typename T>
 	inline int Heap<T>::getGreaterSonIndex(const int index)
 	{
-		//TODO 06: Heap
-		throw std::exception("Heap<T>::getGreaterSonIndex: Not implemented yet.");
+		int leftIndex = index * 2 + 1;
+		int rightIndex = index * 2 + 2;
+
+		PriorityQueueItem<T>* childLeft = leftIndex < (this->list_)->size() ? (*this->list_)[leftIndex] : nullptr;
+		PriorityQueueItem<T>* childRight = rightIndex < (this->list_)->size() ? (*this->list_)[rightIndex] : nullptr;
+
+		if (childLeft == nullptr && childRight == nullptr)
+		{
+			return -1;
+		}
+
+		if (childLeft != nullptr && childRight != nullptr)
+		{
+			return childLeft->getPriority() < childRight->getPriority() ? leftIndex : rightIndex;
+		}
+		else
+		{
+			return leftIndex;
+		}
 	}
 
 	template<typename T>
 	inline int Heap<T>::indexOfPeek() const
 	{
-		//TODO 06: Heap
-		throw std::exception("Heap<T>::indexOfPeek: Not implemented yet.");
+		if ((this->list_)->isEmpty())
+		{
+			throw std::logic_error("Heap is empty!");
+		}
+
+		return 0;
 	}
 }

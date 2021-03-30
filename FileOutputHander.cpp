@@ -20,14 +20,14 @@ void FileOutputHander::openFile(std::string filename, std::string mode)
 	}
 }
 
-bool FileOutputHander::writeRecord(std::string structName, std::string operation, int itemsCount, float time)
+bool FileOutputHander::writeRecord(std::string structName, std::string operationGroup, std::string operation, int itemsCount, float time)
 {
 	if (!file.is_open())
 	{
 		return false;
 	}
 
-	file << structName << ";" << operation << ";" << itemsCount << ";" << time << std::endl;
+	file << structName << ";" << operationGroup << ";" << operation << ";" << itemsCount << ";" << time << std::endl;
 	return true;
 }
 

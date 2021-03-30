@@ -8,8 +8,8 @@
 #include <sstream>
 #include <fstream>
 
-#include "structures/list/array_list.h"
-#include "structures/list/linked_list.h"
+#include "../../structures/list/array_list.h"
+#include "../../structures/list/linked_list.h"
 
 using namespace std;
 using namespace structures;
@@ -46,7 +46,7 @@ void ADTListTest::setTestScenarioOperationRanges(int insertRange, int removeRang
 
 void ADTListTest::runTestForImplementation(structures::List<int>& list, string implName)
 {
-
+	string operation = "";
 	for (int i = 0; i < operationsCount; i++)
 	{
 		int rnd = rand() % 100;
@@ -54,40 +54,50 @@ void ADTListTest::runTestForImplementation(structures::List<int>& list, string i
 
 		if (rnd < insertRange)
 		{
-			opTime = insertOperation(list);
+			opTime = insertOperation(list, operation);
 			if (opTime > -1.0)
 			{
-				fileWriter->writeRecord(implName, "insert", list.size() - 1, opTime);
+				fileWriter->writeRecord(implName, "insert", operation, list.size() - 1, opTime);
 			}
+			operation.clear();
 		} 
 		else if (rnd < removeRange + insertRange)
 		{
-			opTime = removeOperation(list);
+			opTime = removeOperation(list, operation);
 			if (opTime > -1.0)
 			{
-				fileWriter->writeRecord(implName, "remove", list.size() + 1, opTime);
+				fileWriter->writeRecord(implName, "remove", operation, list.size() + 1, opTime);
 			}
+			operation.clear();
 		}
 		else if (rnd < getRange + removeRange + insertRange)
 		{
-			opTime = getOperation(list);
+			opTime = getOperation(list, operation);
 			if (opTime > -1.0)
 			{
-				fileWriter->writeRecord(implName, "get", list.size(), opTime);
+				fileWriter->writeRecord(implName, "get", operation, list.size(), opTime);
 			}
+			operation.clear();
 		}
 		else
 		{
-			opTime = indexOperation(list);
+			opTime = indexOperation(list, operation);
 			if (opTime > -1.0)
 			{
-				fileWriter->writeRecord(implName, "index", list.size(), opTime);
+				fileWriter->writeRecord(implName, "index", operation, list.size(), opTime);
 			}
+			operation.clear();
+		}
+
+		if (opTime > -1)
+		{
+			if (implName == "AL") { alOpCount++; }
+			else { llOpCount++; }
 		}
 	}
 }
 
-float ADTListTest::insertOperation(structures::List<int>& list)
+float ADTListTest::insertOperation(structures::List<int>& list, std::string& operationName)
 {
 	int rnd = rand() % 3;
 	int value = rand();
@@ -97,11 +107,13 @@ float ADTListTest::insertOperation(structures::List<int>& list)
 	switch (rnd)
 	{
 	case 0:
+		operationName = "insert-0";
 		t0 = clck::now();
 		list.insert(value, 0);
 		t1 = clck::now();
 		break;
 	case 1:
+		operationName = "add";
 		t0 = clck::now();
 		list.add(value);
 		t1 = clck::now();
@@ -114,6 +126,7 @@ float ADTListTest::insertOperation(structures::List<int>& list)
 		{
 			index = rand() % list.size();
 		}
+		operationName = "insert-i";
 		t0 = clck::now();
 		list.insert(value, index);
 		t1 = clck::now();
@@ -121,14 +134,12 @@ float ADTListTest::insertOperation(structures::List<int>& list)
 	default:
 		return -1.0;
 	}
-	cout << "insert - ";
 	duration ot = t1 - t0;
 	ms finalTime = std::chrono::duration_cast<ms>(ot);
-	cout << finalTime.count() << "\n";
 	return finalTime.count();
 }
 
-float ADTListTest::removeOperation(structures::List<int>& list)
+float ADTListTest::removeOperation(structures::List<int>& list, std::string& operationName)
 {
 	int a = list.size();
 	// If there is no items in list thus cannot remove any item
@@ -144,17 +155,20 @@ float ADTListTest::removeOperation(structures::List<int>& list)
 	switch (rnd)
 	{
 	case 0:
+		operationName = "remove-0";
 		t0 = clck::now();
 		list.removeAt(0);
 		t1 = clck::now();
 		break;
 	case 1:
+		operationName = "remove-end";
 		index = list.size() - 1;
 		t0 = clck::now();
 		list.removeAt(index);
 		t1 = clck::now();
 		break;
 	case 2:
+		operationName = "remove-i";
 		index = rand() % list.size();
 		t0 = clck::now();
 		list.removeAt(index);
@@ -163,14 +177,12 @@ float ADTListTest::removeOperation(structures::List<int>& list)
 	default:
 		return -1.0;
 	}
-	cout << "remove - ";
 	duration ot = t1 - t0;
 	ms finalTime = std::chrono::duration_cast<ms>(ot);
-	cout << finalTime.count() << "\n";
 	return finalTime.count();
 }
 
-float ADTListTest::getOperation(structures::List<int>& list)
+float ADTListTest::getOperation(structures::List<int>& list, std::string& operationName)
 {
 	// If there is no items in list thus cannot remove any item
 	if (list.size() == 0)
@@ -186,64 +198,51 @@ float ADTListTest::getOperation(structures::List<int>& list)
 	switch (rnd)
 	{
 	case 0:
+		operationName = "get-from-i";
 		t0 = clck::now();
 		value = list[index];
 		t1 = clck::now();
 		break;
 	case 1:
+		operationName = "set-on-i";
+		value = rand();
 		t0 = clck::now();
-		list[index] = index;
+		list[index] = value;
 		t1 = clck::now();
 		break;
 	default:
 		return -1.0;
 	}
-	cout << "get - ";
 	duration ot = t1 - t0;
 	ms finalTime = std::chrono::duration_cast<ms>(ot);
-	cout << finalTime.count() << "\n";
 	return finalTime.count();
 }
 
-float ADTListTest::indexOperation(structures::List<int>& list)
+float ADTListTest::indexOperation(structures::List<int>& list, std::string& operationName)
 {
 	// If there is no items in list thus cannot remove any item
 	if (list.size() == 0)
 	{
 		return -1.0;
 	}
+	operationName = "index-of";
 	int value = list[rand() % list.size()];
 	auto t0 = clck::now();
 	list.getIndexOf(value);
 	auto t1 = clck::now();
-	cout << "index - ";
 	duration ot = t1 - t0;
 	ms finalTime = std::chrono::duration_cast<ms>(ot);
-	cout << finalTime.count() << "\n";
 	return finalTime.count();
 }
 
 void ADTListTest::runTest(char scenario, TestInfo& info)
 {
-	/*switch (scenario)
-	{
-	case 'A':
-		setTestScenarioOperationRanges(20, 20, 50, 10);
-		break;
-	case 'B':
-		setTestScenarioOperationRanges(35, 35, 20, 10);
-		break;
-	case 'C':
-		setTestScenarioOperationRanges(45, 45, 5, 5);
-		break;
-	default:
-		info.setOperationsCount(0);
-		info.setOperationsTime(0);
-		return;
-	}*/
-	
-	int founded = -1;
+	//Measure for test length 
+	tp t0;
+	tp t1;
+	t0 = clck::now();
 
+	int founded = -1;
 	for (int i = 0; i < data.size(); i++)
 	{
 		if (data.at(i).first[0] == scenario)
@@ -267,8 +266,6 @@ void ADTListTest::runTest(char scenario, TestInfo& info)
 	}
 
 	//TODO: UI result
-	info.setOperationsCount(11110);
-	info.setOperationsTime(34.12);
 	
 	ArrayList<int> al;
 	LinkedList<int> ll;
@@ -284,6 +281,16 @@ void ADTListTest::runTest(char scenario, TestInfo& info)
 	runTestForImplementation(ll, "LL");
 
 	fileWriter->closeFile();
+
+	t1 = clck::now();
+	duration ot = t1 - t0;
+	ms finalTime = std::chrono::duration_cast<ms>(ot);
+
+	ostringstream s;
+	s << "\tPocet vykonanych operacii pre AL: " << alOpCount << endl;
+	s << "\tPocet vykonanych operacii pre LL: " << llOpCount << endl;
+	info.setMessage(s.str());
+	info.setOperationsTime((float)finalTime.count() / 1000000);
 }
 
 string ADTListTest::getScenarios()

@@ -85,14 +85,30 @@ namespace structures
 	template<typename T>
 	inline void PriorityQueueSortedArrayList<T>::push(const int priority, const T& data)
 	{
-		//TODO 06: PriorityQueueList
-		throw std::exception("PriorityQueueSortedArrayList<T>::push: Not implemented yet.");
+		if (this->list_->isEmpty() || priority <= this->peekPriority() )
+		{
+			this->list_->add(new PriorityQueueItem<T>(priority, data));
+		}
+		else
+		{
+			for (int i = 0; i < this->list_->size(); i++)
+			{
+				if ((*this->list_)[i]->getPriority() > priority)
+				{
+					this->list_->insert(new PriorityQueueItem<T>(priority, data), i);
+					break;
+				}
+			}
+		}
 	}
 
 	template<typename T>
 	inline int PriorityQueueSortedArrayList<T>::indexOfPeek() const
 	{
-		//TODO 06: PriorityQueueList
-		throw std::exception("PriorityQueueSortedArrayList<T>::indexOfPeek: Not implemented yet.");
+		if (this->list_->isEmpty())
+		{
+			throw std::logic_error("Priority queue is empty!");
+		}
+		return (this->list_->size() - 1);
 	}
 }

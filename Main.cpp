@@ -9,7 +9,10 @@
 #include "structures/matrix/Matrix.h"
 #include "structures/matrix/CoherentMatrix.h"
 #include "structures/matrix/IncoherentMatrix.h"
-#include "ADTListTest.h"
+#include "structures/priority_queue/priority_queue.h"
+#include "structures/priority_queue/priority_queue_sorted_array_list.h"
+#include "structures/priority_queue/priority_queue_unsorted_array_list.h"
+#include "structures/priority_queue/heap.h"
 #include "FileOutputHander.h"
 #include "TestApp.h"
 

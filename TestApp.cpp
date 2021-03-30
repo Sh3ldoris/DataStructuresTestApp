@@ -1,6 +1,7 @@
 #include "TestApp.h"
-#include "ADTListTest.h"
-#include "tests/matrix/MatrixTest.h"
+#include "tests/ADTListTest/ADTListTest.h"
+#include "tests/ADTPriorityQueue/ADTPriortityQueueTest.h"
+#include "tests/Matrix/MatrixTest.h"
 #include "structures/list/list.h"
 #include "structures/list/array_list.h"
 #include "FileOutputHander.h"
@@ -63,13 +64,11 @@ void TestApp::run()
 
 	cout << message << endl;
 	cout << "\n***********************\n";
-	cout << "Test prave prebieha...\n";
 
 	test->runTest(scenarios[scenarioSelection - 1], *info);
 
 	cout << "***********************\n";
 	cout << "Test bol vykonany...\n";
-	cout << "***********************\n";
 
 	/********** Test results **********/
 	printTestResults();
@@ -82,6 +81,10 @@ bool TestApp::initializeTest(int testSelection)
 	case 1:
 		test = new ADTListTest();
 		selectedTest = "ADT List";
+		break;
+	case 2:
+		test = new ADTPriortityQueueTest();
+		selectedTest = "ADT Priority Queue";
 		break;
 	case 3:
 		test = new MatrixTest();
@@ -118,6 +121,8 @@ bool TestApp::addNewADTScenatio()
 	{
 		onceAgainSelection(sName, rawInput);
 	}
+
+	sName = rawInput[0];
 
 	cout << "Insert podiel: ";
 	cin >> insert;
@@ -217,7 +222,7 @@ void TestApp::printStructTestSelection()
 {
 	cout << "Vyberte test, ktory sa ma spusit:\n";
 	cout << "\t1 - ADT List\n";
-	cout << "\t2 - Not yet\n";
+	cout << "\t2 - ADT Priority Queue\n";
 	cout << "\t3 - Matrix (implementing in progress)\n";
 	cout << "Vas vyber: ";
 	cin >> testSelection;
@@ -295,7 +300,7 @@ void TestApp::printConfirmation()
 
 void TestApp::printTestResults()
 {
-	cout << "\n=> Pocet vykonanych operacii : " << info->getOperationsCount() << endl;
-	cout << "=> Celk. cas operacii : " << info->getOperationsTime() << endl;
-	cout << "\n\n";
+	cout << "\nVysledok: \n";
+	cout << info->getMessage();
+	cout << "=> Celk. cas operacii : " << info->getOperationsTime() << "s\n";	
 }

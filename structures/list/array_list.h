@@ -159,7 +159,6 @@ namespace structures
 	template<typename T>
 	inline ArrayList<T>::~ArrayList()
 	{
-		std::cout << "Destructior ArrayList\n";
 		delete array_;
 		array_ = nullptr;
 	}
@@ -239,7 +238,8 @@ namespace structures
 		}
 
 		Array<T>::copy(*array_, index, *array_, index + 1, size_ - index);
-		(*array_)[size_++] = data;
+		(*array_)[index] = data;
+		size_++;
 	}
 
 	template<typename T>

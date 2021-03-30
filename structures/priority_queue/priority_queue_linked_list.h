@@ -78,7 +78,6 @@ namespace structures
 	template<typename T>
 	inline void PriorityQueueLinkedList<T>::push(const int priority, const T & data)
 	{
-		//TODO 06: PriorityQueueLinkedList
-		throw std::exception("PriorityQueueLimitedSortedArrayList<T>::push: Not implemented yet.");
+		list_->add(new PriorityQueueItem<T>(priority, data));
 	}
 }
