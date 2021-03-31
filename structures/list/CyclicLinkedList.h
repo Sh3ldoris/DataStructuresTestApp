@@ -10,47 +10,56 @@ namespace structures
 	/// <summary> Prvok jednostranne zretazeneho zoznamu. </summary>
 	/// <typeparam name = "T"> Typ dat ukladanych v prvku. </typepram>
 	template<typename T>
-	class LinkedListItem : public DataItem<T>
+	class CycledLinkedListItem : public DataItem<T>
 	{
 	public:
 		/// <summary> Konstruktor. </summary>
 		/// <param name = "data"> Data, ktore uchovava. </param>
-		LinkedListItem(T data);
+		CycledLinkedListItem(T data);
 
 		/// <summary> Kopirovaci konstruktor. </summary>
 		/// <param name = "other"> Prvok jednstranne zretazeneho zoznamu, z ktoreho sa prevezmu vlastnosti.. </param>
-		LinkedListItem(const LinkedListItem<T>& other);
+		CycledLinkedListItem(const CycledLinkedListItem<T>& other);
 
 		/// <summary> Destruktor. </summary>
-		~LinkedListItem();
+		~CycledLinkedListItem();
 
 		/// <summary> Getter nasledujuceho prvku zretazeneho zoznamu. </summary>
 		/// <returns> Nasledujuci prvok zretazeneho zoznamu. </returns>
-		LinkedListItem<T>* getNext();
+		CycledLinkedListItem<T>* getNext();
 
 		/// <summary> Setter nasledujuceho prvku zretazeneho zoznamu. </summary>
 		/// <param name´= "next"> Novy nasledujuci prvok zretazeneho zoznamu. </param>
-		void setNext(LinkedListItem<T>* next);
+		void setNext(CycledLinkedListItem<T>* next);
+
+		/// <summary> Getter nasledujuceho prvku zretazeneho zoznamu. </summary>
+		/// <returns> Nasledujuci prvok zretazeneho zoznamu. </returns>
+		CycledLinkedListItem<T>* getPrevious();
+
+		/// <summary> Setter nasledujuceho prvku zretazeneho zoznamu. </summary>
+		/// <param name´= "next"> Novy nasledujuci prvok zretazeneho zoznamu. </param>
+		void setPrevious(CycledLinkedListItem<T>* previous);
 	private:
 		/// <summary> Nasledujuci prvok zretazeneho zoznamu. </summary>
-		LinkedListItem<T>* next_;
+		CycledLinkedListItem<T>* next_;
+		CycledLinkedListItem<T>* previous_;
 	};
 
 	/// <summary> Jednostranne zretazeny zoznam. </summary>
 	/// <typeparam name = "T"> Typ dat ukladanych v zozname. </typepram>
 	template<typename T>
-	class LinkedList : public List<T>
+	class CyclicedLikedList : public List<T>
 	{
 	public:
 		/// <summary> Konstruktor. </summary>
-		LinkedList();
+		CyclicedLikedList();
 
 		/// <summary> Kopirovaci konstruktor. </summary>
 		/// <param name = "other"> LinkedList, z ktoreho sa prevezmu vlastnosti. </param>
-		LinkedList(const LinkedList<T>& other);
+		CyclicedLikedList(const CyclicedLikedList<T>& other);
 
 		/// <summary> Destruktor. </summary>
-		~LinkedList();
+		~CyclicedLikedList();
 
 		/// <summary> Operacia klonovania. Vytvori a vrati duplikat zoznamu. </summary>
 		/// <returns> Ukazovatel na klon struktury. </returns>
@@ -68,7 +77,7 @@ namespace structures
 		/// <summary> Operator priradenia. </summary>
 		/// <param name = "other"> Zoznam, z ktoreho ma prebrat vlastnosti. </param>
 		/// <returns> Adresa, na ktorej sa tento zoznam nachadza po priradeni. </returns>
-		LinkedList<T>& operator=(const LinkedList<T>& other);
+		CyclicedLikedList<T>& operator=(const CyclicedLikedList<T>& other);
 
 		/// <summary> Vrati adresou prvok na indexe. </summary>
 		/// <param name = "index"> Index prvku. </param>
@@ -111,7 +120,7 @@ namespace structures
 
 		/// <summary> Vymaze zoznam. </summary>
 		void clear() override;
-	
+
 		/// <summary> Vrati skutocny iterator na zaciatok struktury </summary>
 		/// <returns> Iterator na zaciatok struktury. </returns>
 		/// <remarks> Zabezpecuje polymorfizmus. </remarks>
@@ -125,26 +134,25 @@ namespace structures
 		/// <summary> Pocet prvkov v zozname. </summary>
 		size_t size_;
 		/// <summary> Prvy prvok zoznamu. </summary>
-		LinkedListItem<T>* first_;
-		/// <summary> Posledny prvok zoznamu. </summary>
-		LinkedListItem<T>* last_;
+		CycledLinkedListItem<T>* first_;
 	private:
 		/// <summary> Vrati prvok zoznamu na danom indexe. </summary>
 		/// <param name = "index"> Pozadovany index. </summary>
 		/// <returns> Prvok zoznamu na danom indexe. </param>
 		/// <exception cref="std::out_of_range"> Vyhodena, ak index nepatri do zoznamu. </exception>  
-		LinkedListItem<T>* getItemAtIndex(int index) const;
+		CycledLinkedListItem<T>* getItemAtIndex(int index) const;
+		CycledLinkedListItem<T>* getLast();
 	private:
 		/// <summary> Iterator pre LinkedList. </summary>
-		class LinkedListIterator : public Iterator<T>
+		class CycledLinkedListIterator : public Iterator<T>
 		{
 		public:
 			/// <summary> Konstruktor. </summary>
 			/// <param name = "position"> Pozicia v zretazenom zozname, na ktorej zacina. </param>
-			LinkedListIterator(LinkedListItem<T>* position);
+			CycledLinkedListIterator(const CyclicedLikedList<T>* cycledList, const int position);
 
 			/// <summary> Destruktor. </summary>
-			~LinkedListIterator();
+			~CycledLinkedListIterator();
 
 			/// <summary> Operator priradenia. Priradi do seba hodnotu druheho iteratora. </summary>
 			/// <param name = "other"> Druhy iterator. </param>
@@ -165,89 +173,109 @@ namespace structures
 			/// <remarks> Zvycajne vrati seba. Ak vrati iny iterator, povodny bude automaticky zruseny. </remarks>
 			Iterator<T>& operator++() override;
 		private:
+			/// <summary> Iterovany zoznam. </summary>
+			const CyclicedLikedList<T>* list_;
+			/// <summary> Aktualny item v iteratore. </summary>
+			CycledLinkedListItem<T>* current_;
 			/// <summary> Aktualna pozicia v zozname. </summary>
-			LinkedListItem<T>* position_;
+			int position_;
 		};
 	};
 
 	template<typename T>
-	inline LinkedListItem<T>::LinkedListItem(T data):
+	inline CycledLinkedListItem<T>::CycledLinkedListItem(T data) :
 		DataItem<T>(data),
-		next_(nullptr)
+		next_(nullptr),
+		previous_(nullptr)
 	{
 	}
 
 	template<typename T>
-	inline LinkedListItem<T>::LinkedListItem(const LinkedListItem<T>& other):
+	inline CycledLinkedListItem<T>::CycledLinkedListItem(const CycledLinkedListItem<T>& other) :
 		DataItem<T>(other),
-		next_(other.next_)
+		next_(other.next_),
+		previous_(other.previous_)
 	{
 	}
 
 	template<typename T>
-	inline LinkedListItem<T>::~LinkedListItem()
+	inline CycledLinkedListItem<T>::~CycledLinkedListItem()
 	{
 		next_ = nullptr;
-	}
-	
-	template<typename T>
-	inline LinkedListItem<T> * LinkedListItem<T>::getNext()
-	{
-		return next_; 
+		previous_ = nullptr;
 	}
 
 	template<typename T>
-	inline void LinkedListItem<T>::setNext(LinkedListItem<T> * next)
+	inline CycledLinkedListItem<T>* CycledLinkedListItem<T>::getNext()
+	{
+		return next_;
+	}
+
+	template<typename T>
+	inline void CycledLinkedListItem<T>::setNext(CycledLinkedListItem<T>* next)
 	{
 		next_ = next;
+		next_->previous_ = this;
 	}
 
 	template<typename T>
-	inline LinkedList<T>::LinkedList():
+	inline CycledLinkedListItem<T>* CycledLinkedListItem<T>::getPrevious()
+	{
+		return previous_;
+	}
+
+	template<typename T>
+	inline void CycledLinkedListItem<T>::setPrevious(CycledLinkedListItem<T>* previous)
+	{
+		previous_ = previous;
+		previous_->next_ = this;
+	}
+
+	template<typename T>
+	inline CyclicedLikedList<T>::CyclicedLikedList() :
 		List<T>::List(),
 		size_(0),
-		first_(nullptr),
-		last_(nullptr)
+		first_(nullptr)
 	{
 	}
 
 	template<typename T>
-	inline LinkedList<T>::LinkedList(const LinkedList<T>& other):
-		LinkedList()
+	inline CyclicedLikedList<T>::CyclicedLikedList(const CyclicedLikedList<T>& other) :
+		CyclicedLikedList()
 	{
 		*this = other;
 	}
 
 	template<typename T>
-	inline LinkedList<T>::~LinkedList()
+	inline CyclicedLikedList<T>::~CyclicedLikedList()
 	{
 		clear();
 	}
 
 	template<typename T>
-	inline Structure * LinkedList<T>::clone() const
+	inline Structure* CyclicedLikedList<T>::clone() const
 	{
-		return new LinkedList<T>(*this);
+		return new CyclicedLikedList<T>(*this);
 	}
 
 	template<typename T>
-	inline size_t LinkedList<T>::size() const
+	inline size_t CyclicedLikedList<T>::size() const
 	{
 		return size_;
 	}
 
 	template<typename T>
-	inline List<T>& LinkedList<T>::operator=(const List<T>& other)
+	inline List<T>& CyclicedLikedList<T>::operator=(const List<T>& other)
 	{
 		if (this != &other)
 		{
-			*this = dynamic_cast<const LinkedList<T>&>(other);
+			*this = dynamic_cast<const CyclicedLikedList<T>&>(other);
 		}
 		return *this;
 	}
 
 	template<typename T>
-	inline LinkedList<T>& LinkedList<T>::operator=(const LinkedList<T>& other)
+	inline CyclicedLikedList<T>& CyclicedLikedList<T>::operator=(const CyclicedLikedList<T>& other)
 	{
 		if (this == &other)
 		{
@@ -255,72 +283,74 @@ namespace structures
 		}
 		clear();
 
-		LinkedListItem<T>* item = other.first_;
-		while (item != nullptr)
+		for (T item : other)
 		{
-			add(item->accessData());
-			item = item->getNext();
+			add(item);
 		}
 		return *this;
 	}
 
 	template<typename T>
-	inline T & LinkedList<T>::operator[](const int index)
+	inline T& CyclicedLikedList<T>::operator[](const int index)
 	{
 		return getItemAtIndex(index)->accessData();
 	}
 
 	template<typename T>
-	inline const T LinkedList<T>::operator[](const int index) const
+	inline const T CyclicedLikedList<T>::operator[](const int index) const
 	{
 		return getItemAtIndex(index)->accessData();
 	}
 
 	template<typename T>
-	inline void LinkedList<T>::add(const T & data)
+	inline void CyclicedLikedList<T>::add(const T& data)
 	{
-		LinkedListItem<T>* newItem = new LinkedListItem<T>(data);
+		CycledLinkedListItem<T>* newItem = new CycledLinkedListItem<T>(data);
 		if (size_ == 0)
 		{
+			newItem->setNext(newItem);
 			first_ = newItem;
 		}
 		else {
-			last_->setNext(newItem);
+			newItem->setPrevious(getLast());
+			newItem->setNext(first_);
 		}
 
-		last_ = newItem;
 		size_++;
 	}
 
 	template<typename T>
-	inline void LinkedList<T>::insert(const T & data, const int index)
+	inline void CyclicedLikedList<T>::insert(const T& data, const int index)
 	{
-		//TODO : pozriet cviko
 		if (index == size_)
 		{
 			add(data);
-		} 
-		else if (index == 0) 
-		{
-			DSRoutines::rangeCheckExcept(index, size_, "Index out of range!");
-			LinkedListItem<T>* newItem = new LinkedListItem<T>(data);
-			newItem->setNext(first_);
-			first_ = newItem;
-			size_++;
 		}
-		else 
+		else
 		{
 			DSRoutines::rangeCheckExcept(index, size_, "Index out of range!");
-			LinkedListItem<T>* item = getItemAtIndex(index - 1);
-			LinkedListItem<T>* newItem = new LinkedListItem<T>(data);
-			newItem->setNext(item->getNext());
-			item->setNext(newItem);
+			CycledLinkedListItem<T>* newItem = new CycledLinkedListItem<T>(data);
+
+			if (index == 0)
+			{
+				newItem->setPrevious(getLast());
+				newItem->setNext(first_);
+				first_ = newItem;
+			}
+			else
+			{
+				CycledLinkedListItem<T>* onIndex = getItemAtIndex(index);
+
+				newItem->setPrevious(onIndex->getPrevious());
+				newItem->setNext(onIndex);
+			}
+
 			size_++;
 		}
 	}
 
 	template<typename T>
-	inline bool LinkedList<T>::tryRemove(const T & data)
+	inline bool CyclicedLikedList<T>::tryRemove(const T& data)
 	{
 		int index = getIndexOf(data);
 
@@ -334,40 +364,41 @@ namespace structures
 	}
 
 	template<typename T>
-	inline T LinkedList<T>::removeAt(const int index)
+	inline T CyclicedLikedList<T>::removeAt(const int index)
 	{
 		DSRoutines::rangeCheckExcept(index, size_, "Index out of range!");
-		LinkedListItem<T>* removed;
+		CycledLinkedListItem<T>* removed;
 
 		if (index == 0)
 		{
 			removed = first_;
-			first_ = first_->getNext();
-
-			if (removed == last_)
-				last_ = nullptr;
+			if (size_ > 0)
+			{
+				first_->getNext()->setPrevious(getLast());
+				first_ = first_->getNext();
+			}
 		}
-		else
+		else if(index == (size_ - 1))
 		{
-			LinkedListItem<T>* predecessor = getItemAtIndex(index - 1);
-			removed = predecessor->getNext();
-			predecessor->setNext(removed->getNext());
-
-			if (removed == last_)
-				last_ = predecessor;
+			removed = getLast();
+			getLast()->getPrevious()->setNext(first_);
+		}
+		else 
+		{
+			removed = getItemAtIndex(index);
+			removed->getNext()->setPrevious(removed->getPrevious());
 		}
 
 		T result = removed->accessData();
 		delete removed;
 		size_--;
 		return result;
-
 	}
 
 	template<typename T>
-	inline int LinkedList<T>::getIndexOf(const T & data)
+	inline int CyclicedLikedList<T>::getIndexOf(const T& data)
 	{
-		LinkedListItem<T>* item = first_;
+		CycledLinkedListItem<T>* item = first_;
 		int i = 0;
 		while (item != nullptr)
 		{
@@ -382,87 +413,111 @@ namespace structures
 	}
 
 	template<typename T>
-	inline void LinkedList<T>::clear()
+	inline void CyclicedLikedList<T>::clear()
 	{
-		LinkedListItem<T>* item = first_;
-		int i = 0;
-		while (item != nullptr)
+		CycledLinkedListItem<T>* item = first_;
+		for (int i = 0; i < size_; i++)
 		{
-			LinkedListItem<T>* deleted = item;
+			CycledLinkedListItem<T>* deleted = item;
 			item = item->getNext();
 			delete deleted;
 		}
 		first_ = nullptr;
-		last_ = nullptr;
 		size_ = 0;
 	}
 
 	template<typename T>
-	inline Iterator<T>* LinkedList<T>::getBeginIterator() const
+	inline Iterator<T>* CyclicedLikedList<T>::getBeginIterator() const
 	{
-		return new LinkedListIterator(first_);
+		return new CycledLinkedListIterator(this, 0);
 	}
 
 	template<typename T>
-	inline Iterator<T>* LinkedList<T>::getEndIterator() const
+	inline Iterator<T>* CyclicedLikedList<T>::getEndIterator() const
 	{
-		return new LinkedListIterator(nullptr);
+		return new CycledLinkedListIterator(this, size_);
 	}
 
 	template<typename T>
-	inline LinkedListItem<T>* LinkedList<T>::getItemAtIndex(int index) const
+	inline CycledLinkedListItem<T>* CyclicedLikedList<T>::getLast()
 	{
+		return first_ ? first_->getPrevious() : nullptr;
+	}
+
+	template<typename T>
+	inline CycledLinkedListItem<T>* CyclicedLikedList<T>::getItemAtIndex(int index) const
+	{
+		DSRoutines::rangeCheckExcept(index, size_, "Invalid index!");
+
 		if (index == size_ - 1)
 		{
-			return last_;
+			return first_->getPrevious();
 		}
-		else
+
+		CycledLinkedListItem<T>* item = first_;
+		for (int i = 0; i < index; i++)
 		{
-			DSRoutines::rangeCheckExcept(index, size_, "Invalid index!");
-			LinkedListItem<T>* item = first_;
-			for (size_t i = 0; i < index; i++)
-			{
-				item = item->getNext();
-			}
-			return item;
+			item = item->getNext();
 		}
+
+		return item;
 	}
 
 	template<typename T>
-	inline LinkedList<T>::LinkedListIterator::LinkedListIterator( LinkedListItem<T> * position):
+	inline CyclicedLikedList<T>::CycledLinkedListIterator::CycledLinkedListIterator(const CyclicedLikedList<T>* cycledList, const int position) :
+		list_(cycledList),
+		current_(position == cycledList->size() ? nullptr : cycledList->getItemAtIndex(position)),
 		position_(position)
 	{
 	}
 
 	template<typename T>
-	inline LinkedList<T>::LinkedListIterator::~LinkedListIterator()
+	inline CyclicedLikedList<T>::CycledLinkedListIterator::~CycledLinkedListIterator()
 	{
-		position_ = nullptr;
+		list_ = nullptr;
+		current_ = nullptr;
+		position_ = 0;
 	}
 
 	template<typename T>
-	inline Iterator<T>& LinkedList<T>::LinkedListIterator::operator=(const Iterator<T>& other)
+	inline Iterator<T>& CyclicedLikedList<T>::CycledLinkedListIterator::operator=(const Iterator<T>& other)
 	{
-		position_ = dynamic_cast<const LinkedListIterator&>(other).position_;
+		const CycledLinkedListIterator& iter = dynamic_cast<const CycledLinkedListIterator&>(other);
+		list_ = iter.list_;
+		current_ = iter.current_;
+		position_ = iter.position_;
+
 		return *this;
 	}
 
 	template<typename T>
-	inline bool LinkedList<T>::LinkedListIterator::operator!=(const Iterator<T>& other)
+	inline bool CyclicedLikedList<T>::CycledLinkedListIterator::operator!=(const Iterator<T>& other)
 	{
-		return position_ != dynamic_cast<const LinkedListIterator&>(other).position_;
+		const CycledLinkedListIterator& iter = dynamic_cast<const CycledLinkedListIterator&>(other);
+		return list_ != iter.list_ ||
+			current_ != iter.current_ ||
+			position_ != iter.position_;
 	}
 
 	template<typename T>
-	inline const T LinkedList<T>::LinkedListIterator::operator*()
+	inline const T CyclicedLikedList<T>::CycledLinkedListIterator::operator*()
 	{
-		return position_->accessData();
+		return current_->accessData();
 	}
 
 	template<typename T>
-	inline Iterator<T>& LinkedList<T>::LinkedListIterator::operator++()
+	inline Iterator<T>& CyclicedLikedList<T>::CycledLinkedListIterator::operator++()
 	{
-		position_ = position_->getNext();
+		if (position_ < list_->size() - 1)
+		{
+			current_ = current_->getNext();
+		}
+		else
+		{
+			current_ = nullptr;
+		}
+
+		position_++;
 		return *this;
 	}
 }

@@ -40,5 +40,6 @@ private:
 
     int alOpCount = 0;
     int llOpCount = 0;
+    int cllOpCount = 0;
 };
 

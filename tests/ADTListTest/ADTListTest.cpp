@@ -10,6 +10,7 @@
 
 #include "../../structures/list/array_list.h"
 #include "../../structures/list/linked_list.h"
+#include "../../structures/list/CyclicLinkedList.h"
 
 using namespace std;
 using namespace structures;
@@ -92,7 +93,8 @@ void ADTListTest::runTestForImplementation(structures::List<int>& list, string i
 		if (opTime > -1)
 		{
 			if (implName == "AL") { alOpCount++; }
-			else { llOpCount++; }
+			else if (implName == "LL") { llOpCount++; }
+			else { cllOpCount++; }
 		}
 	}
 }
@@ -108,12 +110,14 @@ float ADTListTest::insertOperation(structures::List<int>& list, std::string& ope
 	{
 	case 0:
 		operationName = "insert-0";
+		//cout << operationName << " - "<< list.size() << endl;
 		t0 = clck::now();
 		list.insert(value, 0);
 		t1 = clck::now();
 		break;
 	case 1:
 		operationName = "add";
+		//cout << operationName << " - " << list.size() << endl;
 		t0 = clck::now();
 		list.add(value);
 		t1 = clck::now();
@@ -127,6 +131,7 @@ float ADTListTest::insertOperation(structures::List<int>& list, std::string& ope
 			index = rand() % list.size();
 		}
 		operationName = "insert-i";
+		//cout << operationName << " - " << list.size() << endl;
 		t0 = clck::now();
 		list.insert(value, index);
 		t1 = clck::now();
@@ -156,12 +161,14 @@ float ADTListTest::removeOperation(structures::List<int>& list, std::string& ope
 	{
 	case 0:
 		operationName = "remove-0";
+		//cout << operationName << " - " << list.size() << endl;
 		t0 = clck::now();
 		list.removeAt(0);
 		t1 = clck::now();
 		break;
 	case 1:
 		operationName = "remove-end";
+		//cout << operationName << " - " << list.size() << endl;
 		index = list.size() - 1;
 		t0 = clck::now();
 		list.removeAt(index);
@@ -169,6 +176,7 @@ float ADTListTest::removeOperation(structures::List<int>& list, std::string& ope
 		break;
 	case 2:
 		operationName = "remove-i";
+		//cout << operationName << " - " << list.size() << endl;
 		index = rand() % list.size();
 		t0 = clck::now();
 		list.removeAt(index);
@@ -199,12 +207,14 @@ float ADTListTest::getOperation(structures::List<int>& list, std::string& operat
 	{
 	case 0:
 		operationName = "get-from-i";
+		//cout << operationName << " - " << list.size() << endl;
 		t0 = clck::now();
 		value = list[index];
 		t1 = clck::now();
 		break;
 	case 1:
 		operationName = "set-on-i";
+		//cout << operationName << " - " << list.size() << endl;
 		value = rand();
 		t0 = clck::now();
 		list[index] = value;
@@ -226,6 +236,7 @@ float ADTListTest::indexOperation(structures::List<int>& list, std::string& oper
 		return -1.0;
 	}
 	operationName = "index-of";
+	//cout << operationName << " - " << list.size() << endl;
 	int value = list[rand() % list.size()];
 	auto t0 = clck::now();
 	list.getIndexOf(value);
@@ -269,6 +280,7 @@ void ADTListTest::runTest(char scenario, TestInfo& info)
 	
 	ArrayList<int> al;
 	LinkedList<int> ll;
+	CyclicedLikedList<int> cll;
 
 	string fileName = baseDir;
 	fileName.append("/ADTList-");
@@ -279,6 +291,7 @@ void ADTListTest::runTest(char scenario, TestInfo& info)
 
 	runTestForImplementation(al, "AL");
 	runTestForImplementation(ll, "LL");
+	runTestForImplementation(cll, "CLL");
 
 	fileWriter->closeFile();
 
@@ -289,6 +302,7 @@ void ADTListTest::runTest(char scenario, TestInfo& info)
 	ostringstream s;
 	s << "\tPocet vykonanych operacii pre AL: " << alOpCount << endl;
 	s << "\tPocet vykonanych operacii pre LL: " << llOpCount << endl;
+	s << "\tPocet vykonanych operacii pre CLL: " << cllOpCount << endl;
 	info.setMessage(s.str());
 	info.setOperationsTime((float)finalTime.count() / 1000000);
 }
