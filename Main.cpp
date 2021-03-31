@@ -13,6 +13,7 @@
 #include "structures/priority_queue/priority_queue_sorted_array_list.h"
 #include "structures/priority_queue/priority_queue_unsorted_array_list.h"
 #include "structures/priority_queue/heap.h"
+#include "structures/list/CyclicLinkedList.h"
 #include "FileOutputHander.h"
 #include "TestApp.h"
 
@@ -25,6 +26,17 @@ int main()
 	initHeapMonitor();
 	TestApp app;
 	app.run();	
+	/*CyclicedLikedList<int> cl;
+	cl.add(1);
+	cl.add(2);
+	cl.add(3);
+	cl.insert(4, 2);
+
+	for (int data : cl)
+	{
+		cout << data << " - ";
+	}
+	cout << endl;*/
 	return 0;
 }
 
