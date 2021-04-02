@@ -9,6 +9,7 @@
 #include <fstream>
 
 #include "../../structures/priority_queue/priority_queue_sorted_array_list.h"
+#include "../../structures/priority_queue/priority_queue_two_lists.h"
 #include "../../structures/priority_queue/heap.h"
 
 using namespace std;
@@ -52,6 +53,7 @@ void ADTPriortityQueueTest::runTest(char scenario, TestInfo& info)
 	}
 
 	PriorityQueueSortedArrayList<int> pqsal;
+	PriorityQueueTwoLists<int> pqtl;
 	Heap<int> heap;
 
 	string fileName = baseDir;
@@ -63,6 +65,7 @@ void ADTPriortityQueueTest::runTest(char scenario, TestInfo& info)
 
 	runTestForImplementation(pqsal, "PQSAL");
 	runTestForImplementation(heap, "HEAP");
+	runTestForImplementation(pqtl, "PQTL");
 
 	fileWriter->closeFile();
 
@@ -73,6 +76,7 @@ void ADTPriortityQueueTest::runTest(char scenario, TestInfo& info)
 	ostringstream s;
 	s << "\tPocet vykonanych operacii pre HEAP: " << heapOpCount << endl;
 	s << "\tPocet vykonanych operacii pre PQSAL: " << pqsalOpCount << endl;
+	s << "\tPocet vykonanych operacii pre PQTL: " << pqtlOpCount << endl;
 	info.setMessage(s.str());
 	info.setOperationsTime((float)finalTime.count() / 1000000);
 }
@@ -135,6 +139,7 @@ void ADTPriortityQueueTest::runTestForImplementation(structures::PriorityQueue<i
 		if (opTime > -1)
 		{
 			if (implName == "HEAP") { heapOpCount++; }
+			else if (implName == "PQTL") { pqtlOpCount++; }
 			else { pqsalOpCount++; }
 		}
 	}

@@ -12,6 +12,7 @@
 #include "structures/priority_queue/priority_queue.h"
 #include "structures/priority_queue/priority_queue_sorted_array_list.h"
 #include "structures/priority_queue/priority_queue_unsorted_array_list.h"
+#include "structures/priority_queue/priority_queue_two_lists.h"
 #include "structures/priority_queue/heap.h"
 #include "structures/list/CyclicLinkedList.h"
 #include "FileOutputHander.h"
@@ -25,18 +26,18 @@ int main()
 {
 	initHeapMonitor();
 	TestApp app;
-	app.run();	
-	/*CyclicedLikedList<int> cl;
-	cl.add(1);
-	cl.add(2);
-	cl.add(3);
-	cl.insert(4, 2);
+	app.run();
 
-	for (int data : cl)
-	{
-		cout << data << " - ";
-	}
-	cout << endl;*/
+	/*PriorityQueue<int>* p = new PriorityQueueTwoLists<int>();
+	p->push(10, 1);
+	p->push(10, 1);
+	p->push(10, 1);
+	p->push(10, 1);
+	p->push(10, 1);
+	p->push(10, 1);
+
+	p->clear();
+	delete p;*/
 	return 0;
 }
 

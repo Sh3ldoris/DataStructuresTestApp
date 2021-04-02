@@ -38,5 +38,6 @@ private:
 
 	int heapOpCount = 0;
 	int pqsalOpCount = 0;
+	int pqtlOpCount = 0;
 };
 
