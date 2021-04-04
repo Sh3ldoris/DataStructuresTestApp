@@ -1,6 +1,7 @@
 #include "TestApp.h"
 #include "tests/ADTListTest/ADTListTest.h"
 #include "tests/ADTPriorityQueue/ADTPriortityQueueTest.h"
+#include "tests/ADTPriorityQueue/Bonus/BonusPQTests.h"
 #include "tests/Matrix/MatrixTest.h"
 #include "structures/list/list.h"
 #include "structures/list/array_list.h"
@@ -61,6 +62,11 @@ void TestApp::run()
 	/********** Confirm run test **********/
 	printConfirmation();
 	
+	/*!! Stops applicaton !!*/
+	if (confirmSelection == 2)
+	{
+		return;
+	}
 
 	cout << message << endl;
 	cout << "\n***********************\n";
@@ -89,6 +95,10 @@ bool TestApp::initializeTest(int testSelection)
 	case 3:
 		test = new MatrixTest();
 		selectedTest = "Matrix";
+		break;
+	case 4:
+		test = new BonusPQTests() ;
+		selectedTest = "Two List Priority Queue";
 		break;
 	default:
 		return false;
@@ -119,7 +129,7 @@ bool TestApp::addNewADTScenatio()
 	}
 	while (rawInput == "" || rawInput.size() > 1)
 	{
-		onceAgainSelection(sName, rawInput);
+		onceAgainSelection(rawInput);
 	}
 
 	sName = rawInput[0];
@@ -205,7 +215,7 @@ void TestApp::onceAgainSelection(int& varToSelect)
 	}
 }
 
-void TestApp::onceAgainSelection(char& varToSelect, std::string& rawInput)
+void TestApp::onceAgainSelection(std::string& rawInput)
 {
 	cout << "\nSkuste to este raz: ";
 	cin >> rawInput;
@@ -223,7 +233,8 @@ void TestApp::printStructTestSelection()
 	cout << "Vyberte test, ktory sa ma spusit:\n";
 	cout << "\t1 - ADT List\n";
 	cout << "\t2 - ADT Priority Queue\n";
-	cout << "\t3 - Matrix (implementing in progress)\n";
+	cout << "\t3 - Matrix\n";
+	cout << "\t4 - Two list priority queue\n";
 	cout << "Vas vyber: ";
 	cin >> testSelection;
 	if (cin.fail())
@@ -248,7 +259,8 @@ void TestApp::printScenarioSelection()
 	int i = 0;
 	while (scenarios[i] != '\0')
 	{
-		cout << "\t" << i << " - " << scenarios[i++] << endl;
+		cout << "\t" << i + 1 << " - " << scenarios[i] << endl;
+		i++;
 	}
 	//Pri ADT Liste je mozne si navolit vlastny test
 	if (selectedTest == "ADT List")

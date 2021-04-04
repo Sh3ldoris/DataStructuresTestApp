@@ -3,6 +3,7 @@
 #include "priority_queue_list.h"
 #include "../list/array_list.h"
 #include <stdexcept> 
+#include <iostream> 
 
 namespace structures
 {
@@ -91,9 +92,13 @@ namespace structures
 		}
 		else
 		{
+			/*int i = 0;
+			for (; (*this->list_)[i]->getPriority() > priority; i++)
+			{}
+			this->list_->insert(new PriorityQueueItem<T>(priority, data), i);*/
 			for (int i = 0; i < this->list_->size(); i++)
 			{
-				if ((*this->list_)[i]->getPriority() > priority)
+				if ((*this->list_)[i]->getPriority() < priority)
 				{
 					this->list_->insert(new PriorityQueueItem<T>(priority, data), i);
 					break;

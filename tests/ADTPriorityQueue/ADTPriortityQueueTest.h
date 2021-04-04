@@ -22,19 +22,24 @@ public:
 	void runTest(char scenario, TestInfo& info) override;
 	std::string getScenarios() override;
 
-private:
+protected:
 	void setTestScenarioOperationRanges(int insertRange, int removeRange, int getRange);
 	void runTestForImplementation(structures::PriorityQueue<int>& queue, std::string implName);
+
+private:
 	float insertOperation(structures::PriorityQueue<int>& queue);
 	float removeOperation(structures::PriorityQueue<int>& queue);
 	float getOperation(structures::PriorityQueue<int>& queue);
 
+protected:
+	std::string baseDir = "CSV-DATA";
+	FileOutputHander* fileWriter;
+	int insertRange = 0;
+
 private:
 	std::string scenarios = "";
-	FileOutputHander* fileWriter;
-	int insertRange = 0, removeRange = 0, getRange = 0;
+	int removeRange = 0, getRange = 0;
 	int operationsCount = 100000;
-	std::string baseDir = "CSV-DATA";
 
 	int heapOpCount = 0;
 	int pqsalOpCount = 0;

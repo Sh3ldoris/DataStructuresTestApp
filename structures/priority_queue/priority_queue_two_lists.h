@@ -62,7 +62,7 @@ namespace structures
 		/// <exception cref="std::logic_error"> Vyhodena, ak je prioritny front implementovany dvojzoznamom prazdny. </exception>  
 		int peekPriority() const override;
 	
-	private:
+	protected:
 		/// <summary> Smernik na prioritny front ako implementovany utriednym ArrayList-om s obmedzenou kapacitou . </summary>
 		/// <remarks> Z pohladu dvojzoznamu sa jedna o kratsi utriedeny zoznam. </remarks>
 		PriorityQueueLimitedSortedArrayList<T>* shortList_;
@@ -88,7 +88,6 @@ namespace structures
 	template<typename T>
 	PriorityQueueTwoLists<T>::~PriorityQueueTwoLists()
 	{
-		std::cout << "Heeeej\n";
 		clear();
 		delete shortList_;
 		delete longList_;
@@ -141,7 +140,7 @@ namespace structures
 		{
 			shortList_->push(priority, data);
 		}
-		else if (peekPriority() > priority)
+		else if (shortList_->minPriority() > priority)
 		{
 			PriorityQueueItem<T>* removedItem = shortList_->pushAndRemove(priority, data);
 
@@ -166,23 +165,26 @@ namespace structures
 			return data;
 		}
 
-		int newCapacity = (int)sqrt(longList_->size());
-		shortList_->trySetCapacity(newCapacity > 4 ? newCapacity : 4);
-
-		LinkedList<PriorityQueueItem<T>*>* newList = new LinkedList<PriorityQueueItem<T>*>();
-		while (longList_->size() != 0) 
+		if (shortList_->isEmpty() && !longList_->isEmpty())
 		{
-			PriorityQueueItem<T>* removed = longList_->removeAt(longList_->size() - 1);
-			PriorityQueueItem<T>* item = shortList_->pushAndRemove(removed->getPriority(), removed->accessData());
-			delete removed;
-			if (item != nullptr)
-			{
-				newList->add(item);
-			}
-		}
-		delete longList_;
-		longList_ = newList;
 
+			int newCapacity = (int)sqrt(longList_->size());
+			shortList_->trySetCapacity(newCapacity > 4 ? newCapacity : 2);
+
+			LinkedList<PriorityQueueItem<T>*>* newList = new LinkedList<PriorityQueueItem<T>*>();
+			while (longList_->size() != 0)
+			{
+				PriorityQueueItem<T>* removed = longList_->removeAt(longList_->size() - 1);
+				PriorityQueueItem<T>* item = shortList_->pushAndRemove(removed->getPriority(), removed->accessData());
+				delete removed;
+				if (item != nullptr)
+				{
+					newList->add(item);
+				}
+			}
+			delete longList_;
+			longList_ = newList;
+		}
 		return data;
 	}
 

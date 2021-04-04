@@ -14,7 +14,7 @@ private:
 	bool initializeTest(int testSelection);
 	bool addNewADTScenatio();
 	void onceAgainSelection(int& varToSelect);
-	void onceAgainSelection(char& varToSelect, std::string& rawInput);
+	void onceAgainSelection(std::string& rawInput);
 	void printStructTestSelection();
 	void printScenarioSelection();
 	void printConfirmation();

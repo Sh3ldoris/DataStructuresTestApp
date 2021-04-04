@@ -47,13 +47,13 @@ void ADTPriortityQueueTest::runTest(char scenario, TestInfo& info)
 		setTestScenarioOperationRanges(70, 25, 5);
 		break;
 	default:
-		info.setOperationsCount(0);
 		info.setOperationsTime(0);
+		info.setMessage("");
 		return;
 	}
 
 	PriorityQueueSortedArrayList<int> pqsal;
-	PriorityQueueTwoLists<int> pqtl;
+	//PriorityQueueTwoLists<int> pqtl;
 	Heap<int> heap;
 
 	string fileName = baseDir;
@@ -65,7 +65,7 @@ void ADTPriortityQueueTest::runTest(char scenario, TestInfo& info)
 
 	runTestForImplementation(pqsal, "PQSAL");
 	runTestForImplementation(heap, "HEAP");
-	runTestForImplementation(pqtl, "PQTL");
+	//runTestForImplementation(pqtl, "PQTL");
 
 	fileWriter->closeFile();
 
@@ -76,7 +76,7 @@ void ADTPriortityQueueTest::runTest(char scenario, TestInfo& info)
 	ostringstream s;
 	s << "\tPocet vykonanych operacii pre HEAP: " << heapOpCount << endl;
 	s << "\tPocet vykonanych operacii pre PQSAL: " << pqsalOpCount << endl;
-	s << "\tPocet vykonanych operacii pre PQTL: " << pqtlOpCount << endl;
+	//s << "\tPocet vykonanych operacii pre PQTL: " << pqtlOpCount << endl;
 	info.setMessage(s.str());
 	info.setOperationsTime((float)finalTime.count() / 1000000);
 }
@@ -104,8 +104,7 @@ void ADTPriortityQueueTest::setTestScenarioOperationRanges(int insertRange, int 
 
 void ADTPriortityQueueTest::runTestForImplementation(structures::PriorityQueue<int>& queue, std::string implName)
 {
-	//just empty ""
-	string operation = "";
+	string operation = ""; //just empty ""
 	for (int i = 0; i < operationsCount; i++)
 	{
 		int rnd = rand() % 100;

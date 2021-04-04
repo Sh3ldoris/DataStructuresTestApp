@@ -271,12 +271,10 @@ void ADTListTest::runTest(char scenario, TestInfo& info)
 
 	if (founded == -1)
 	{
-		info.setOperationsCount(0);
 		info.setOperationsTime(0);
+		info.setMessage("");
 		return;
 	}
-
-	//TODO: UI result
 	
 	ArrayList<int> al;
 	LinkedList<int> ll;

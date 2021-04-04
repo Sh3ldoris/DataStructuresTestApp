@@ -33,7 +33,7 @@ bool FileOutputHander::writeRecord(std::string structName, std::string operation
 
 bool FileOutputHander::writeLine(std::string line)
 {
-	if (!file.is_open())
+	if (!file.is_open() || line == "")
 	{
 		return false;
 	}

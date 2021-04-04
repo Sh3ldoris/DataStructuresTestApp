@@ -10,16 +10,6 @@ std::string TestInfo::getMessage()
 	return message;
 }
 
-void TestInfo::setOperationsCount(int count)
-{
-	operationCount = count;
-}
-
-int TestInfo::getOperationsCount()
-{
-	return operationCount;
-}
-
 void TestInfo::setOperationsTime(float time)
 {
 	operationTime = time;

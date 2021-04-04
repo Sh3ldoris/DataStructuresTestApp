@@ -17,7 +17,7 @@ using namespace mystruct;
 MatrixTest::MatrixTest() :
     fileWriter(new FileOutputHander()),
     scenarios("AB"),
-    maxSize(1000),
+    maxSize(2000),
     sizeAddition(100),
     repetitions(10),
     fixedLength(5)
@@ -84,8 +84,6 @@ void MatrixTest::runTest(char scenario, TestInfo& info)
         break;
 
     case 'B':
-        maxSize =3;
-        sizeAddition = 1;
         runScenarioB();
         break;
 
@@ -216,7 +214,7 @@ void MatrixTest::runScenarioA()
         }
 
         //Zapisat do suboru prislusny record
-        s << "CM" << ';' << cmResult1.getColumnLength() << ';' << cmResult1.getRowLength() << ';' << avrgTime1 / repetitions;
+        s << "IM" << ';' << cmResult1.getColumnLength() << ';' << cmResult1.getRowLength() << ';' << avrgTime1 / repetitions;
         record.clear();
         record = s.str();
         s.str("");
@@ -224,7 +222,7 @@ void MatrixTest::runScenarioA()
         fileWriter->writeLine(record);
 
         //Zapisat do suboru prislusny record
-        s << "CM" << ';' << cmResult2.getColumnLength() << ';' << cmResult2.getRowLength() << ';' << avrgTime2 / repetitions;
+        s << "IM" << ';' << cmResult2.getColumnLength() << ';' << cmResult2.getRowLength() << ';' << avrgTime2 / repetitions;
         record.clear();
         record = s.str();
         s.str("");
@@ -263,11 +261,11 @@ void MatrixTest::runScenarioB()
         cmResult1.setValues(0);
         float avrgTime1 = 0;
 
-        CoherentMatrix<int> cm3(fixedLength, i);
+        CoherentMatrix<int> cm3(i, fixedLength);
         cm3.setValues(rand());
-        CoherentMatrix<int> cm4(i, fixedLength);
+        CoherentMatrix<int> cm4(fixedLength, i);
         cm4.setValues(rand());
-        CoherentMatrix<int> cmResult2(fixedLength, fixedLength);
+        CoherentMatrix<int> cmResult2(i, i);
         cmResult2.setValues(0);
         float avrgTime2 = 0;
 
@@ -291,7 +289,7 @@ void MatrixTest::runScenarioB()
         }
 
         //Zapisat do suboru prislusny record
-        s << "CM" << ';' << cmResult1.getColumnLength() << ';' << cmResult1.getRowLength() << ';' << avrgTime1 / repetitions;
+        s << "CM" << ';' << cm1.getColumnLength() << ';' << cm1.getRowLength() << ';' << avrgTime1 / repetitions;
         record.clear();
         record = s.str();
         s.str("");
@@ -299,7 +297,7 @@ void MatrixTest::runScenarioB()
         fileWriter->writeLine(record);
 
         //Zapisat do suboru prislusny record
-        s << "CM" << ';' << cmResult2.getColumnLength() << ';' << cmResult2.getRowLength() << ';' << avrgTime2 / repetitions;
+        s << "CM" << ';' << cm3.getColumnLength() << ';' << cm3.getRowLength() << ';' << avrgTime2 / repetitions;
         record.clear();
         record = s.str();
         s.str("");
@@ -318,11 +316,11 @@ void MatrixTest::runScenarioB()
         cmResult1.setValues(0);
         float avrgTime1 = 0;
 
-        IncoherentMatrix<int> cm3(fixedLength, i);
+        IncoherentMatrix<int> cm3(i, fixedLength);
         cm3.setValues(rand());
-        IncoherentMatrix<int> cm4(i, fixedLength);
+        IncoherentMatrix<int> cm4(fixedLength, i);
         cm4.setValues(rand());
-        IncoherentMatrix<int> cmResult2(fixedLength, fixedLength);
+        IncoherentMatrix<int> cmResult2(i, i);
         cmResult2.setValues(0);
         float avrgTime2 = 0;
 
@@ -346,7 +344,7 @@ void MatrixTest::runScenarioB()
         }
 
         //Zapisat do suboru prislusny record
-        s << "CM" << ';' << cmResult1.getColumnLength() << ';' << cmResult1.getRowLength() << ';' << avrgTime1 / repetitions;
+        s << "IM" << ';' << cm1.getColumnLength() << ';' << cm1.getRowLength() << ';' << avrgTime1 / repetitions;
         record.clear();
         record = s.str();
         s.str("");
@@ -354,7 +352,7 @@ void MatrixTest::runScenarioB()
         fileWriter->writeLine(record);
 
         //Zapisat do suboru prislusny record
-        s << "CM" << ';' << cmResult2.getColumnLength() << ';' << cmResult2.getRowLength() << ';' << avrgTime2 / repetitions;
+        s << "IM" << ';' << cm3.getColumnLength() << ';' << cm3.getRowLength() << ';' << avrgTime2 / repetitions;
         record.clear();
         record = s.str();
         s.str("");

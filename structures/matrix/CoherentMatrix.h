@@ -41,16 +41,16 @@ namespace mystruct
     template<typename T>
     inline T& CoherentMatrix<T>::item(const int x, const int y)
     {
-        structures::DSRoutines::rangeCheckExcept(x, 0, getColumnLength(), "Invalid index!");
-        structures::DSRoutines::rangeCheckExcept(y, 0, getRowLength(), "Invalid index!");
+        //structures::DSRoutines::rangeCheckExcept(x, 0, getColumnLength(), "Invalid index!");
+        //structures::DSRoutines::rangeCheckExcept(y, 0, getRowLength(), "Invalid index!");
         return (*array_)[x*base+y];
     }
 
     template<typename T>
     inline const T CoherentMatrix<T>::item(const int x1, const int y1) const
     {
-  /*      structures::DSRoutines::rangeCheckExcept(x1, 0, getColumnLength(), "Invalid index!");
-        structures::DSRoutines::rangeCheckExcept(y1, 0, getRowLength(), "Invalid index!");*/
+        //structures::DSRoutines::rangeCheckExcept(x1, 0, getColumnLength(), "Invalid index!");
+        //structures::DSRoutines::rangeCheckExcept(y1, 0, getRowLength(), "Invalid index!");
         return (*array_)[x1*base +y1];
     }
 
